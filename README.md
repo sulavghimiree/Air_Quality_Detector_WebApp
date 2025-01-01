@@ -9,4 +9,4 @@ It classifies the air quality into four types that is Good, Hazardious, Moderate
 ### This app is currently in development.
 
 ### You can check out live status and demo in
-[](https://www.rabbzy.com)
+[Air Quality Detector](https://www.rabbzy.com)
