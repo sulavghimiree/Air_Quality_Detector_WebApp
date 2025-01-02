@@ -1,130 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Air Quality Checker</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f3f4f6;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f3f4f6;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        overflow-y: auto;
+      }
 
-        .container {
-            background: #ffffff;
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
+      .container {
+        margin: 20px 0;
+        background: #ffffff;
+        padding: 20px 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
 
-        .container h1 {
-            text-align: center;
-            font-size: 1.5em;
-            color: #333333;
-            margin-bottom: 20px;
-        }
+      .container h1 {
+        text-align: center;
+        font-size: 1.5em;
+        color: #333333;
+        margin-bottom: 20px;
+      }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+      .nav {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
 
-        .form-group label {
-            display: block;
-            font-size: 0.9em;
-            color: #555555;
-            margin-bottom: 5px;
-        }
+      .nav button {
+        background-color: #4caf50;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 0 10px;
+      }
 
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #cccccc;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
+      .nav button:hover {
+        background-color: #45a049;
+      }
 
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            font-size: 1em;
-            color: #ffffff;
-            background-color: #4caf50;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+      .form {
+        display: none;
+      }
 
-        .btn:hover {
-            background-color: #45a049;
-        }
+      .form.active {
+        display: block;
+      }
 
-        .result{
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 4px;
-            background-color: #f3f4f6;
-            color: #333333;
-            font-size: 1em;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 0.9em;
+        color: #555555;
+        margin-bottom: 5px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        color: #ffffff;
+        background-color: #4caf50;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #45a049;
+      }
+
+      .result {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: #f3f4f6;
+        color: #333333;
+        font-size: 1em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>Air Quality Checker</h1>
-        <form action="/predict" method="post">
-            <div class="form-group">
-                <label for="temperature">Temperature (°C):</label>
-                <input type="number" step="0.01" id="temperature" name="temperature" required>
-            </div>
-            <div class="form-group">
-                <label for="humidity">Humidity (%):</label>
-                <input type="number" step="0.01" id="humidity" name="humidity" required>
-            </div>
-            <div class="form-group">
-                <label for="pm25">PM2.5 (µg/m³):</label>
-                <input type="number" step="0.01" id="pm25" name="pm25" required>
-            </div>
-            <div class="form-group">
-                <label for="pm10">PM10 (µg/m³):</label>
-                <input type="number" step="0.01" id="pm10" name="pm10" required>
-            </div>
-            <div class="form-group">
-                <label for="no2">NO2 (µg/m³):</label>
-                <input type="number" step="0.01" id="no2" name="no2" required>
-            </div>
-            <div class="form-group">
-                <label for="so2">SO2 (µg/m³):</label>
-                <input type="number" step="0.01" id="so2" name="so2" required>
-            </div>
-            <div class="form-group">
-                <label for="co">CO (µg/m³):</label>
-                <input type="number" step="0.01" id="co" name="co" required>
-            </div>
-            <div class="form-group">
-                <label for="proximity">Proximity to Industrial Areas (km):</label>
-                <input type="number" step="0.01" id="proximity" name="proximity" required>
-            </div>
-            <div class="form-group">
-                <label for="population-density">Population Density (per km²):</label>
-                <input type="number" id="population-density" name="population-density" required>
-            </div>
-            <button type="submit" value="Predict" class="btn">Find Air Quality</button>
-        </form>
-        {% if prediction_text %}
-        <div class="result">{{prediction_text}}</div>
-        {% endif %}
+      <h1>Air Quality Checker</h1>
+      <div class="nav">
+        <button id="detailedFormButton">Detailed Form</button>
+        <button id="simpleFormButton">Simple Form</button>
+      </div>
+
+      <!-- Detailed Form -->
+      <form
+        id="detailedForm"
+        class="form active"
+        action="/predict"
+        method="post"
+      >
+        <div class="form-group">
+          <label for="temperature">Temperature (°C):</label>
+          <input
+            type="number"
+            step="0.01"
+            id="temperature"
+            name="temperature"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="humidity">Humidity (%):</label>
+          <input
+            type="number"
+            step="0.01"
+            id="humidity"
+            name="humidity"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="pm25">PM2.5 (µg/m³):</label>
+          <input type="number" step="0.01" id="pm25" name="pm25" required />
+        </div>
+        <div class="form-group">
+          <label for="pm10">PM10 (µg/m³):</label>
+          <input type="number" step="0.01" id="pm10" name="pm10" required />
+        </div>
+        <div class="form-group">
+          <label for="no2">NO2 (µg/m³):</label>
+          <input type="number" step="0.01" id="no2" name="no2" required />
+        </div>
+        <div class="form-group">
+          <label for="so2">SO2 (µg/m³):</label>
+          <input type="number" step="0.01" id="so2" name="so2" required />
+        </div>
+        <div class="form-group">
+          <label for="co">CO (µg/m³):</label>
+          <input type="number" step="0.01" id="co" name="co" required />
+        </div>
+        <div class="form-group">
+          <label for="proximity">Proximity to Industrial Areas (km):</label>
+          <input
+            type="number"
+            step="0.01"
+            id="proximity"
+            name="proximity"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="population-density">Population Density (per km²):</label>
+          <input
+            type="number"
+            id="population-density"
+            name="population-density"
+            required
+          />
+        </div>
+        <button type="submit" value="Predict" class="btn">
+          Find Air Quality
+        </button>
+      </form>
+
+      <!-- Simple Form -->
+      <form id="simpleForm" class="form" action="/predict" method="post">
+        <div class="form-group">
+          <label for="city">City:</label>
+          <input type="text" id="city" name="city" required />
+        </div>
+        <div class="form-group">
+          <label for="proximity">Proximity to Industrial Areas (km):</label>
+          <input
+            type="number"
+            step="0.01"
+            id="proximity"
+            name="proximity"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="population-density">Population Density (per km²):</label>
+          <input
+            type="number"
+            id="population-density"
+            name="population-density"
+            required
+          />
+        </div>
+        <button type="submit" value="Predict" class="btn">
+          Find Air Quality
+        </button>
+      </form>
+
+      {% if prediction_text %}
+      <div class="result">{{prediction_text}}</div>
+      {% endif %}
     </div>
-</body>
+
+    <script>
+      const detailedFormButton = document.getElementById("detailedFormButton");
+      const simpleFormButton = document.getElementById("simpleFormButton");
+      const detailedForm = document.getElementById("detailedForm");
+      const simpleForm = document.getElementById("simpleForm");
+
+      detailedFormButton.addEventListener("click", () => {
+        detailedForm.classList.add("active");
+        simpleForm.classList.remove("active");
+      });
+
+      simpleFormButton.addEventListener("click", () => {
+        simpleForm.classList.add("active");
+        detailedForm.classList.remove("active");
+      });
+
+      const fetchData = async (url) => {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data;
+      };
+
+      const getWeatherData = async (city) => {
+        const weatherData = await fetchData(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=2ac35e6d537e85fd14c9e2fd22cfbc3a`
+        );
+        const temp = weatherData.main.temp;
+        const humidity = weatherData.main.humidity;
+        const lat = weatherData.coord.lat;
+        const lon = weatherData.coord.lon;
+        data = {
+          temp,
+          humidity,
+          lat,
+          lon,
+        };
+        return data;
+      };
+
+      const displayWeatherData = async (city) => {
+        const data = await getWeatherData(city);
+
+        const airPollutionData = await fetchData(
+          `https://api.openweathermap.org/data/2.5/air_pollution/forecast?lat=${data.lat}&lon=${data.lon}&appid=2ac35e6d537e85fd14c9e2fd22cfbc3a`
+        );
+        pm2 = airPollutionData.list[0].components.pm2_5;
+        pm10 = airPollutionData.list[0].components.pm10;
+        no2 = airPollutionData.list[0].components.no2;
+        so2 = airPollutionData.list[0].components.so2;
+        co = airPollutionData.list[0].components.co;
+
+        final_data = {
+          temp: data.temp,
+          humidity: data.humidity,
+          pm2,
+          pm10,
+          no2,
+          so2,
+          co,
+        };
+        console.log(final_data);
+      };
+
+      displayWeatherData("London");
+    </script>
+  </body>
 </html>
