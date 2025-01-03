@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Air Quality</title>
+    <title>Animated Centered Line</title>
     <style>
       body {
         margin: 0;
@@ -15,13 +15,35 @@
         font-family: "Roboto", Arial, sans-serif;
         color: #fff;
         overflow: hidden;
+        position: relative;
       }
+
+      .background {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: 70%;
+        z-index: 1;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .background img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
       h1 {
         margin: 0;
         font-size: 3rem;
         font-weight: 700;
-        color: #ffffff;
+        color: rgb(65, 30, 30);
         animation: fadeIn 2s ease-out, bounce 2s infinite ease-in-out;
+        z-index: 2;
+        position: relative;
       }
 
       @keyframes fadeIn {
@@ -51,8 +73,16 @@
     </style>
   </head>
   <body>
-    {% if prediction_text %}
-    <h1 class="result">{{prediction_text}}</h1>
-    {% endif %}
+    <div class="background">
+      <img
+        src="{{ url_for('static', filename='images/img.webp') }}"
+        alt="Air theme background"
+      />
+    </div>
+    <h1>
+      {% if prediction_text %}
+      <h1 class="result">{{prediction_text}}</h1>
+      {% endif %}
+    </h1>
   </body>
 </html>
