@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Air Quality</title>
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #2d3436;
+        font-family: "Roboto", Arial, sans-serif;
+        color: #fff;
+        overflow: hidden;
+      }
+      h1 {
+        margin: 0;
+        font-size: 3rem;
+        font-weight: 700;
+        color: #ffffff;
+        animation: fadeIn 2s ease-out, bounce 2s infinite ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      h1:hover {
+        color: #74b9ff;
+        transform: scale(1.1);
+        transition: transform 0.3s ease, color 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    {% if prediction_text %}
+    <h1 class="result">{{prediction_text}}</h1>
+    {% endif %}
+  </body>
+</html>
